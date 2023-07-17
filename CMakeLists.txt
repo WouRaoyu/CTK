@@ -100,7 +100,7 @@ mark_as_superbuild(
 #-----------------------------------------------------------------------------
 # Superbuild Option - Enabled by default
 #
-option(CTK_SUPERBUILD "Build ${PROJECT_NAME} and the projects it depends on." ON)
+option(CTK_SUPERBUILD "Build ${PROJECT_NAME} and the projects it depends on." OFF)
 mark_as_advanced(CTK_SUPERBUILD)
 
 #-----------------------------------------------------------------------------
@@ -480,7 +480,7 @@ ctk_lib_option(PluginFramework
                CTK_ENABLE_PluginFramework)
 
 ctk_lib_option(Widgets
-               "Build the Widgets library" OFF
+               "Build the Widgets library" ON
                CTK_ENABLE_Widgets OR (CTK_ENABLE_DICOMApplicationHosting AND CTK_BUILD_EXAMPLES) OR CTK_USE_QTTESTING)
 
 ctk_lib_option(DICOM/Core
@@ -502,10 +502,10 @@ ctk_lib_option(Scripting/Python/Widgets
                "Build the Python Widgets library" OFF)
 
 ctk_lib_option(Visualization/VTK/Core
-               "Build the VTK Core library" OFF)
+               "Build the VTK Core library" ON)
 
 ctk_lib_option(Visualization/VTK/Widgets
-               "Build the VTK Widgets library" OFF)
+               "Build the VTK Widgets library" ON)
 
 ctk_lib_option(CommandLineModules/Core
                "Build the Command Line Module core library" OFF)
@@ -1083,6 +1083,10 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS_INIT} ${CTK_EXE_LINKER_FLAG
 # for shared libraries
 #
 set(CTK_EXPORT_HEADER_TEMPLATE "${CTK_SOURCE_DIR}/Libs/ctkExport.h.in")
+
+if(CTK_LIB_Visualization/VTK/Widgets)
+  add_subdirectory(Libs/Visualization/GUISupport)
+endif()
 
 #-----------------------------------------------------------------------------
 # Add CTK library subdirectories

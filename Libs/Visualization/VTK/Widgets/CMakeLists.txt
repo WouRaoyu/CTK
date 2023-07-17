@@ -22,12 +22,11 @@ else()
     ChartsCore
     CommonCore
     CommonDataModel
-    #Context2D
     FiltersCore
     FiltersGeneral
     FiltersModeling
     FiltersSources
-    GUISupportQt
+    # GUISupportQt
     ImagingGeneral
     ImagingStatistics
     IOLegacy
@@ -195,8 +194,8 @@ if(${CTK_USE_CHARTS})
   set(KIT_SRCS
       ctkVTKChartView.cpp
       ctkVTKChartView.h
-	  ctkVTKDiscretizableColorTransferWidget.h
-	  ctkVTKDiscretizableColorTransferWidget.cpp
+	    ctkVTKDiscretizableColorTransferWidget.h
+	    ctkVTKDiscretizableColorTransferWidget.cpp
       ctkVTKVolumePropertyWidget.cpp
       ctkVTKVolumePropertyWidget.h
       ctkVTKScalarsToColorsView.cpp
@@ -206,7 +205,7 @@ if(${CTK_USE_CHARTS})
       ${KIT_SRCS})
   set(KIT_MOC_SRCS
       ctkVTKChartView.h
-	  ctkVTKDiscretizableColorTransferWidget.h
+	    ctkVTKDiscretizableColorTransferWidget.h
       ctkVTKVolumePropertyWidget.h
       ctkVTKScalarsToColorsView.h
       ctkVTKScalarsToColorsWidget.h
@@ -232,6 +231,10 @@ endif()
 # Target libraries - See CMake/ctkFunctionGetTargetLibraries.cmake
 # The following macro will read the target libraries from the file 'target_libraries.cmake'
 ctkFunctionGetTargetLibraries(KIT_target_libraries)
+
+list(APPEND KIT_target_libraries VTKGUISupportQt)
+
+include_directories(${CTK_SOURCE_DIR}/Libs/Visualization/GUISupport)
 
 # If we use QtTessting, we add all the dependencies
 if(CTK_USE_QTTESTING)
