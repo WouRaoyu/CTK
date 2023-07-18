@@ -40,12 +40,14 @@ static ctkLogger logger("org.commontk.dicom.DICOMDisplayedFieldGenerator" );
 //------------------------------------------------------------------------------
 ctkDICOMDisplayedFieldGeneratorPrivate::ctkDICOMDisplayedFieldGeneratorPrivate(ctkDICOMDisplayedFieldGenerator& o)
   : q_ptr(&o)
-  , Database(nullptr)
+  , Database(CTK_NULLPTR)
 {
 }
 
 //------------------------------------------------------------------------------
-ctkDICOMDisplayedFieldGeneratorPrivate::~ctkDICOMDisplayedFieldGeneratorPrivate() = default;
+ctkDICOMDisplayedFieldGeneratorPrivate::~ctkDICOMDisplayedFieldGeneratorPrivate()
+{
+}
 
 //------------------------------------------------------------------------------
 void ctkDICOMDisplayedFieldGeneratorPrivate::setupEnabledDisplayedFieldGeneratorRules()

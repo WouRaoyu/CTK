@@ -49,6 +49,7 @@
 #include "ctkDirectoryButton.h"
 #include "ctkFileDialog.h"
 #include "ctkMessageBox.h"
+#include "ctkUtils.h" // For ctk::isDirEmpty
 
 // ctkDICOMCore includes
 #include "ctkDICOMDatabase.h"
@@ -521,7 +522,7 @@ void ctkDICOMBrowser::createNewDatabaseDirectory()
   {
     // only use existing folder name as a basis if it is empty or
     // a valid database
-    if (!QDir(baseFolder).isEmpty())
+    if (!ctk::isDirEmpty(QDir(baseFolder)))
     {
       QString databaseFileName = QDir(baseFolder).filePath("ctkDICOM.sql");
       if (!QFile(databaseFileName).exists())
@@ -568,7 +569,7 @@ void ctkDICOMBrowser::createNewDatabaseDirectory()
         continue;
       }
     }
-    if (!QDir(newFolder).isEmpty())
+    if (!ctk::isDirEmpty(QDir(newFolder)))
     {
       continue;
     }
@@ -631,7 +632,7 @@ void ctkDICOMBrowser::setDatabaseDirectory(const QString& directory)
   bool success = true;
 
   if (!QDir(absDirectory).exists()
-    || (!QDir(absDirectory).isEmpty() && !QFile(databaseFileName).exists()))
+    || (!ctk::isDirEmpty(QDir(absDirectory)) && !QFile(databaseFileName).exists()))
   {
     std::cerr << "Database folder does not contain ctkDICOM.sql file: " << qPrintable(absDirectory) << "\n";
     d->DatabaseDirectoryProblemFrame->show();
@@ -1449,7 +1450,11 @@ void ctkDICOMBrowser::exportSeries(QString dirPath, QStringList uids)
     foreach (const QString& filePath, filesForSeries)
     {
       // File name example: my/destination/folder/000001.dcm
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
       QString destinationFileName = QStringLiteral("%1%2.dcm").arg(destinationDir).arg(fileNumber, 6, 10, QLatin1Char('0'));
+#else
+      QString destinationFileName = QString("%1%2.dcm").arg(destinationDir).arg(fileNumber, 6, 10, QLatin1Char('0'));
+#endif
 
       if (!QFile::exists(filePath))
       {
@@ -1815,7 +1820,7 @@ void ctkDICOMBrowser::setSelectedItems(ctkDICOMModel::IndexType level, QStringLi
     // Select parent patient to make sure the requested studies
     // are listed in the study table
     QStringList patientUids;
-    for (const QString& uid : uids)
+    Q_FOREACH (const QString& uid, uids)
     {
       QString patientUid = d->DICOMDatabase->patientForStudy(uid);
       if (!patientUids.contains(patientUid))
@@ -1832,7 +1837,7 @@ void ctkDICOMBrowser::setSelectedItems(ctkDICOMModel::IndexType level, QStringLi
     // Select parent patients and studies to make sure the requested series
     // are listed in the series table
     QStringList studyUids;
-    for (const QString& uid : uids)
+    Q_FOREACH (const QString& uid, uids)
     {
       QString studyUid = d->DICOMDatabase->studyForSeries(uid);
       if (!studyUids.contains(studyUid))

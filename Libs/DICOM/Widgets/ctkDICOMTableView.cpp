@@ -23,7 +23,9 @@
 #include "ui_ctkDICOMTableView.h"
 
 // Qt includes
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <QJsonObject>
+#endif
 #include <QMouseEvent>
 #include <QSortFilterProxyModel>
 #include <QSqlError>
@@ -258,6 +260,7 @@ void ctkDICOMTableViewPrivate::applyColumnProperties()
     QHeaderView::ResizeMode columnResizeMode = QHeaderView::Interactive;
     if (!fieldFormat.isEmpty())
     {
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
       QJsonDocument fieldFormatDoc = QJsonDocument::fromJson(fieldFormat.toUtf8());
       QJsonObject fieldFormatObj;
       if (!fieldFormatDoc.isNull())
@@ -311,12 +314,18 @@ void ctkDICOMTableViewPrivate::applyColumnProperties()
 
       }
       else
+#endif
       {
         // format string is specified but failed to be decoded from json
         qWarning() << "Invalid ColumnDisplayProperties Format string for column " << columnName << ": " << fieldFormat;
       }
     }
+#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
+    this->tblDicomDatabaseView->horizontalHeader()->setResizeMode(col, columnResizeMode);
+#else
     this->tblDicomDatabaseView->horizontalHeader()->setSectionResizeMode(col, columnResizeMode);
+#endif
+
     if (columnResizeMode == QHeaderView::Stretch && visibility)
     {
       stretchedColumnFound = true;
@@ -638,7 +647,7 @@ bool ctkDICOMTableView::eventFilter(QObject *obj, QEvent *event)
     {
       QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
       QAbstractItemModel* itemModel = d->tblDicomDatabaseView->model();
-      if (keyEvent != nullptr && itemModel->rowCount() > 0)
+      if (keyEvent != CTK_NULLPTR && itemModel->rowCount() > 0)
       {
         if (keyEvent->key() == Qt::Key_Home)
         {
@@ -899,8 +908,13 @@ void ctkDICOMTableView::setCurrentSelection(const QStringList& uids)
       continue;
     }
     QItemSelectionModel::QItemSelectionModel::SelectionFlags flags = QFlags<QItemSelectionModel::SelectionFlag>();
+#if QT_VERSION >= QT_VERSION_CHECK(5,7,0)
     flags.setFlag(needToSelect ? QItemSelectionModel::Select : QItemSelectionModel::Deselect);
     flags.setFlag(QItemSelectionModel::Rows);
+#else
+    flags = flags | (needToSelect ? QItemSelectionModel::Select : QItemSelectionModel::Deselect);
+    flags = flags | QItemSelectionModel::Rows;
+#endif
     d->tblDicomDatabaseView->selectionModel()->select(index, flags);
   }
 }

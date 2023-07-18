@@ -34,7 +34,7 @@
 #include <QSqlQuery>
 
 //----------------------------------------------------------------------------
-ctkDICOMDisplayedFieldGeneratorRuleFactory *ctkDICOMDisplayedFieldGeneratorRuleFactory::Instance = nullptr;
+ctkDICOMDisplayedFieldGeneratorRuleFactory *ctkDICOMDisplayedFieldGeneratorRuleFactory::Instance = CTK_NULLPTR;
 
 //----------------------------------------------------------------------------
 class ctkDICOMDisplayedFieldGeneratorRuleFactoryCleanup
@@ -88,7 +88,7 @@ void ctkDICOMDisplayedFieldGeneratorRuleFactory::cleanup()
   if (ctkDICOMDisplayedFieldGeneratorRuleFactory::Instance)
   {
     delete ctkDICOMDisplayedFieldGeneratorRuleFactory::Instance;
-    ctkDICOMDisplayedFieldGeneratorRuleFactory::Instance = nullptr;
+    ctkDICOMDisplayedFieldGeneratorRuleFactory::Instance = CTK_NULLPTR;
   }
 }
 
@@ -102,7 +102,7 @@ ctkDICOMDisplayedFieldGeneratorRuleFactory::ctkDICOMDisplayedFieldGeneratorRuleF
 //-----------------------------------------------------------------------------
 ctkDICOMDisplayedFieldGeneratorRuleFactory::~ctkDICOMDisplayedFieldGeneratorRuleFactory()
 {
-  foreach(auto rule, this->DisplayedFieldGeneratorRules)
+  Q_FOREACH(ctkDICOMDisplayedFieldGeneratorAbstractRule* rule, this->DisplayedFieldGeneratorRules)
   {
     delete rule;
   }
@@ -126,7 +126,7 @@ bool ctkDICOMDisplayedFieldGeneratorRuleFactory::registerDisplayedFieldGenerator
   }
 
   // Check for already registered rule
-  foreach(auto &registeredRule, this->DisplayedFieldGeneratorRules)
+  Q_FOREACH(ctkDICOMDisplayedFieldGeneratorAbstractRule* registeredRule, this->DisplayedFieldGeneratorRules)
   {
     if (registeredRule->name() == rule->name())
     {

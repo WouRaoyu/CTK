@@ -33,6 +33,7 @@ class QDateTime;
 class ctkDICOMDatabasePrivate;
 class DcmDataset;
 class ctkDICOMAbstractThumbnailGenerator;
+class ctkDICOMBrowser;
 class ctkDICOMDisplayedFieldGenerator;
 
 /// \ingroup DICOM_Core
@@ -136,7 +137,7 @@ public:
   /// \return true if schema was updated
   Q_INVOKABLE bool updateSchema(
     const char* schemaFile = ctkDICOMDatabase::defaultSchemaFile(),
-    const char* newDatabaseDir = nullptr);
+    const char* newDatabaseDir = CTK_NULLPTR);
 
   /// Update the database schema only if the versions don't match
   /// \param schemaFile SQL file containing schema definition
@@ -147,7 +148,7 @@ public:
   /// \return true if schema was updated
   Q_INVOKABLE bool updateSchemaIfNeeded(
     const char* schemaFile = ctkDICOMDatabase::defaultSchemaFile(),
-    const char* newDatabaseDir = nullptr);
+    const char* newDatabaseDir = CTK_NULLPTR);
 
   /// Return the schema version needed by the current version of this code
   Q_INVOKABLE QString schemaVersion();
@@ -450,6 +451,7 @@ protected:
 private:
   Q_DECLARE_PRIVATE(ctkDICOMDatabase);
   Q_DISABLE_COPY(ctkDICOMDatabase);
+  friend class ctkDICOMBrowser; // For access to databaseChanged() if building against Qt4
 };
 
 #endif
