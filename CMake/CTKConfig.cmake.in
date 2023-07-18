@@ -10,7 +10,7 @@
 
 # Help finding external projects which might have been
 # installed with CTK in the same install location
-list(APPEND CMAKE_PREFIX_PATH ${PACKAGE_PREFIX_DIR})
+# list(APPEND CMAKE_PREFIX_PATH ${PACKAGE_PREFIX_DIR})
 
 # CMake extension module directory
 set_and_check(CTK_CMAKE_DIR "@PACKAGE_CTK_CMAKE_DIR_CONFIG@")

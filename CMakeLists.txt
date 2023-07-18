@@ -238,12 +238,19 @@ foreach(file
   CMake/ctkMacroAddCtkLibraryOptions.cmake
   CMake/ctkFunctionGenerateDGraphInput.cmake
   CMake/ctkFunctionGeneratePluginManifest.cmake
+  CMake/ctkFunctionGeneratePluginUseFile.cmake
   CMake/ctkMacroGeneratePluginResourceFile.cmake
   CMake/ctkFunctionAddPluginRepo.cmake
   CMake/ctkFunctionCheckCompilerFlags.cmake
   CMake/ctkFunctionCheckoutRepo.cmake
   CMake/ctkFunctionGetIncludeDirs.cmake
   CMake/ctkFunctionGetLibraryDirs.cmake
+  CMake/ctkFunctionExtractPluginTargets.cmake
+  CMake/ctkFunctionExtractPluginTargets.cmake
+  CMake/ctkFunctionGetAllPluginTargets.cmake
+  CMake/ctkFunctionGetTargetDependencies.cmake
+  CMake/ctkFunctionGetPluginDependencies.cmake
+  CMake/ctkMacroSetupPlugins.cmake
   CMake/ctkFunctionGetGccVersion.cmake
   CMake/ctkFunctionGetCompilerVisibilityFlags.cmake
   CMake/ctkFunctionCompileSnippets.cmake
@@ -1103,6 +1110,8 @@ endforeach()
 
 # Add the CommandLineModules root directory for additional processing
 add_subdirectory(Libs/CommandLineModules)
+
+add_subdirectory(Applications/ctkVolumeViewer)
 
 #-----------------------------------------------------------------------------
 # Add CTK plugin subdirectories

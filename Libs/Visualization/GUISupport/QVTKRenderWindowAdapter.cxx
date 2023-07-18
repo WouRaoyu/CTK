@@ -333,10 +333,10 @@ public:
 
     int* rbsize = this->RenderWindow->GetRenderFramebuffer()->GetLastSize();
     this->RenderWindow->BlitDisplayFramebuffer(left ? 0 : 1, 0, 0, rbsize[0], rbsize[1],
-        targetRect.x(), targetRect.y(), targetRect.width(), targetRect.height(),
-        GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+      targetRect.x(), targetRect.y(), targetRect.width(), targetRect.height(), GL_COLOR_BUFFER_BIT,
+      GL_LINEAR);
 
-    //this->clearAlpha(targetRect);
+    this->clearAlpha(targetRect);
 
     if (scissorTest == GL_TRUE)
     {
