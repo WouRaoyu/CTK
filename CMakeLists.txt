@@ -1111,8 +1111,6 @@ endforeach()
 # Add the CommandLineModules root directory for additional processing
 add_subdirectory(Libs/CommandLineModules)
 
-add_subdirectory(Applications/ctkVolumeViewer)
-
 #-----------------------------------------------------------------------------
 # Add CTK plugin subdirectories
 #
